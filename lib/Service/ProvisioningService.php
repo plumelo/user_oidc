@@ -332,8 +332,15 @@ class ProvisioningService {
 					}
 					$group = $v;
 				} elseif (is_string($v)) {
+					$gid = $v;
+					// If group with the same name already exists reuse
+					foreach ($userGroups as $group) {
+						if($v == $group->getDisplayName()) {
+							$gid = $v;
+						}
+					}
 					// Handle array of strings, e.g. ["group1", "group2", ...]
-					$group = (object)['gid' => $v, 'displayName' => $v];
+					$group = (object)['gid' => $gid, 'displayName' => $v];
 				} else {
 					continue;
 				}
